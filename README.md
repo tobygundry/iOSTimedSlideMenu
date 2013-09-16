@@ -14,9 +14,9 @@ iOS Timed Slide Menu can't be used with constraints, after setting a view to be
 of type TimedSlideMenu, unselect 'Use Autolayout'.
 
 The following linker flags must be set:
-1. -ObjC
-2. -all_load
+1.  -ObjC
+2.  -all_load
 
 License
 =======
-iOSTimed Slide Menu is licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+iOSTimedSlideMenu is licensed under [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
