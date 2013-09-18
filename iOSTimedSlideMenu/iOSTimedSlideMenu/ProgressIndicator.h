@@ -20,13 +20,16 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "Position.h"
 
 @interface ProgressIndicator : UIViewController
 {
   UIView *superview;  // The TimedSlideMenu the ProgressIndicator belongs to
+  
+  enum StartPosition position;
 }
 
-// The progress bar will be created using the dimensions from the TimedSlideMenu
-- (id)initWithSuperview:(UIView *)view;
+// The ProgressBar will be created using the dimensions from the TimedSlideMenu
+- (id)initWithSuperview:(UIView *)view position:(enum StartPosition)position;
 
 @end

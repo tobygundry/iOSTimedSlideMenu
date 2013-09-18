@@ -22,7 +22,7 @@
 
 @implementation ProgressIndicator
 
-- (id)initWithSuperview:(UIView *)view
+- (id)initWithSuperview:(UIView *)view position:(enum StartPosition)position
 {
     if (self = [super init])
     {

@@ -32,37 +32,90 @@
     
     isExpanded = NO;
     
+    position = RightPosition;
+    
+    if(position==RightPosition)
+    {
+      [self offsetSubviews];
+    }
+    
+    dragTab = [[DragTab alloc] initWithSuperview:self position:position];
+    
+    [self addSubview:dragTab];
+    
     [self retractMenu];
   }
   
   return self;
 }
 
-- (void)slideOut
+- (void)offsetSubviews
+{
+  float offsetBy = dragTab.frame.size.width;
+  
+  NSArray *subviews = [self subviews];
+  
+#ifdef DEBUG
+  NSLog(@"Subviews to be offset: %d", [subviews count]);
+#endif
+  
+  for(UIView *view in subviews)
+  {
+    view.frame = CGRectMake(view.frame.origin.x + offsetBy,
+                            view.frame.origin.y,
+                            view.frame.size.width,
+                            view.frame.size.height);
+  }
+}
+
+- (void)expandMenu
 {
   [self toggleExpandedFlag];
   
   [UIView animateWithDuration:0.3f
                         delay:0.0f
                       options:0
-                   animations:^{ self.frame = originalFrame; }
-                   completion:^(BOOL complete) { [self scheduleReset]; }];
+                   animations:^{
+                     if(position == LeftPosition)
+                     {
+                       self.frame = originalFrame;
+                     }
+                     else
+                     {
+                       self.frame = CGRectMake(originalFrame.origin.x
+                                               - dragTab.frame.size.width,
+                                               originalFrame.origin.y,
+                                               originalFrame.size.width
+                                               + dragTab.frame.size.width,
+                                               originalFrame.size.height);
+                     }
+                   }
+                   completion:^(BOOL complete)
+                   {
+                     [self scheduleReset];
+                   }];
   
   [self addProgressIndicator];
 }
 
 -(void)addProgressIndicator
 {
-  _progress = [[ProgressIndicator alloc] initWithSuperview:self];
+  _progress = [[ProgressIndicator alloc] initWithSuperview:self
+                                                  position:position];
   
   [self addSubview:_progress.view];
 }
 
 - (void)retractMenu
 {
-  float x = originalFrame.size.width * -1;
+  float x = (position==LeftPosition)
+  
+    ? originalFrame.size.width * -1
+  
+    : originalFrame.size.width - dragTab.frame.size.width;
+ 
   float y = originalFrame.origin.y;
-  float w = originalFrame.size.width + 44.0;
+  float w = originalFrame.size.width + dragTab.frame.size.width;
   float h = originalFrame.size.height;
   
   self.frame = CGRectMake(x, y, w, h);
@@ -116,14 +169,26 @@
   NSLog(@"touchesMoved:withEvent: x = %f", touchX);
 #endif
   
-  if(touchX > (initialTouchX + 50))
+  if(touchX > (initialTouchX + 50) && position==LeftPosition)
   {
-    [self slideOut];
+    [self expandMenu];
+    
+    return;
+  }
+  else if(touchX < (initialTouchX - 50) && position==RightPosition)
+  {
+    [self expandMenu];
     
     return;
   }
   
-  self.frame = CGRectMake(touchX - self.frame.size.width,
+  float newX = (position==LeftPosition)
+  
+    ? touchX - self.frame.size.width
+  
+    : touchX;
+  
+  self.frame = CGRectMake(newX,
                           self.frame.origin.y,
                           self.frame.size.width,
                           self.frame.size.height);

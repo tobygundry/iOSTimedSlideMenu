@@ -23,6 +23,8 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ProgressIndicator.h"
+#import "DragTab.h"
+#import "Position.h"
 
 @interface TimedSlideMenu : UIView
 {
@@ -31,6 +33,10 @@
   float initialTouchX;    // Where the initial touch occured on drag.
   
   BOOL isExpanded;        // Flag for menu being full expended.
+  
+  enum StartPosition position;
+  
+  DragTab *dragTab;
 }
 
 @property (nonatomic, retain) ProgressIndicator *progress;
