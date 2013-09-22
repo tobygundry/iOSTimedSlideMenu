@@ -18,6 +18,15 @@
 //  limitations under the License.
 //
 
+#define DEFAULT_VISIBLE_TIME    5.0f
+#define DEFAULT_DRAG_THRESHOLD  50.0f
+
+#define EXPAND_DELAY            0.0f
+#define EXPAND_SPEED            0.3f
+
+#define RETRACT_DELAY           0.0f
+#define RETRACT_SPEED           0.3f
+
 #import "TimedSlideMenu.h"
 
 @implementation TimedSlideMenu
@@ -32,37 +41,96 @@
     
     isExpanded = NO;
     
-    [self retractMenu];
+    _visibleTime = DEFAULT_VISIBLE_TIME;
+    
+    _dragThreshold = DEFAULT_DRAG_THRESHOLD;
+    
+    [self setPosition:LeftPosition];
   }
   
   return self;
 }
 
-- (void)slideOut
+- (void)setPosition:(enum TabPosition)position
 {
-  [self toggleExpandedFlag];
+  tabPosition = position;
   
-  [UIView animateWithDuration:0.3f
-                        delay:0.0f
-                      options:0
-                   animations:^{ self.frame = originalFrame; }
-                   completion:^(BOOL complete) { [self scheduleReset]; }];
+  if(tabPosition == RightPosition)
+    [self offsetSubviews];
   
-  [self addProgressIndicator];
+  if(dragTab)
+    [dragTab removeFromSuperview];
+  
+  dragTab = [[DragTab alloc] initWithSuperview:self position:tabPosition];
+  
+  [self addSubview:dragTab];
+  [self retractMenu];
+}
+
+- (void)offsetSubviews
+{
+  float offsetBy = dragTab.frame.size.width;
+  
+  NSArray *subviews = [self subviews];
+  
+  for(UIView *view in subviews)
+  {
+    view.frame = CGRectMake(view.frame.origin.x + offsetBy,
+                            view.frame.origin.y,
+                            view.frame.size.width,
+                            view.frame.size.height);
+  }
 }
 
 -(void)addProgressIndicator
 {
-  _progress = [[ProgressIndicator alloc] initWithSuperview:self];
+  progress = [[ProgressIndicator alloc] initWithSuperview:self
+                                                  position:tabPosition
+                                                    speed:_visibleTime];
   
-  [self addSubview:_progress.view];
+  [self addSubview:progress.view];
+}
+
+- (void)expandMenu
+{
+  [self toggleExpandedFlag];
+  
+  [UIView animateWithDuration:EXPAND_SPEED
+                        delay:EXPAND_DELAY
+                      options:NO
+                   animations:^{
+                     if(tabPosition == LeftPosition) // move into method
+                     {
+                       self.frame = originalFrame;
+                     }
+                     else
+                     {
+                       self.frame = CGRectMake(originalFrame.origin.x
+                                               - dragTab.frame.size.width,
+                                               originalFrame.origin.y,
+                                               originalFrame.size.width
+                                               + dragTab.frame.size.width,
+                                               originalFrame.size.height);
+                     }
+                   }
+                   completion:^(BOOL complete)
+                   {
+                     [self scheduleReset];
+                   }];
+  
+  [self addProgressIndicator];
 }
 
 - (void)retractMenu
 {
-  float x = originalFrame.size.width * -1;
+  float x = (tabPosition == LeftPosition)
+  
+    ? originalFrame.size.width * -1
+  
+    : originalFrame.size.width - dragTab.frame.size.width;
+ 
   float y = originalFrame.origin.y;
-  float w = originalFrame.size.width + 44.0;
+  float w = originalFrame.size.width + dragTab.frame.size.width;
   float h = originalFrame.size.height;
   
   self.frame = CGRectMake(x, y, w, h);
@@ -70,7 +138,7 @@
 
 - (void)scheduleReset
 {
-  [NSTimer scheduledTimerWithTimeInterval:5.0
+  [NSTimer scheduledTimerWithTimeInterval:_visibleTime
                                    target:self
                                  selector:@selector(reset:)
                                  userInfo:nil
@@ -80,19 +148,19 @@
 - (void)toggleExpandedFlag
 {
   isExpanded = !isExpanded;
-  
-#ifdef DEBUG
-  NSLog(@"toggleExpandedFlag called, new isExpanded value: %d", isExpanded);
-#endif
 }
 
 - (void)reset:(id)sender
 {
-  [UIView animateWithDuration:0.3f
-                        delay:0.0f
-                      options:0
-                   animations:^{ [self retractMenu]; }
-                   completion:^(BOOL complete) { [self toggleExpandedFlag]; }];
+  [UIView animateWithDuration:RETRACT_SPEED
+                        delay:RETRACT_DELAY
+                      options:NO
+                   animations:^{
+                     [self retractMenu];
+                   }
+                   completion:^(BOOL complete) {
+                     [self toggleExpandedFlag];
+                   }];
 }
 
 #pragma mark UIResponder methods
@@ -100,10 +168,6 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
   initialTouchX = [[touches anyObject] locationInView:self.superview].x;
-  
-#ifdef DEBUG
-  NSLog(@"touchesBegan:withEvent: initalTouchX = %f", initialTouchX);
-#endif
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
@@ -112,18 +176,29 @@
   
   float touchX = [[touches anyObject] locationInView:self.superview].x;
   
-#ifdef DEBUG
-  NSLog(@"touchesMoved:withEvent: x = %f", touchX);
-#endif
-  
-  if(touchX > (initialTouchX + 50))
+  if(touchX > (initialTouchX + _dragThreshold)
+     && tabPosition == LeftPosition)
   {
-    [self slideOut];
+    [self expandMenu];
+    
+    return;
+  }
+  else
+  if(touchX < (initialTouchX - _dragThreshold)
+     && tabPosition == RightPosition)
+  {
+    [self expandMenu];
     
     return;
   }
   
-  self.frame = CGRectMake(touchX - self.frame.size.width,
+  float newX = (tabPosition == LeftPosition)
+  
+    ? touchX - self.frame.size.width
+  
+    : touchX;
+  
+  self.frame = CGRectMake(newX,
                           self.frame.origin.y,
                           self.frame.size.width,
                           self.frame.size.height);
@@ -135,11 +210,7 @@
   
   float touchX = [[touches anyObject] locationInView:self.superview].x;
   
-#ifdef DEBUG
-  NSLog(@"touchesEnded:withEvent: x = %f", touchX);
-#endif
-  
-  if(touchX < initialTouchX + 50)
+  if(touchX < initialTouchX + _dragThreshold)
   {
     [self retractMenu];
   }

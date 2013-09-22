@@ -18,24 +18,40 @@
 //  limitations under the License.
 //
 
-#define DEBUG
-
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ProgressIndicator.h"
+#import "DragTab.h"
+#import "Position.h"
 
 @interface TimedSlideMenu : UIView
 {
-  CGRect originalFrame;   // The original frame as taken from IB.
+  CGRect originalFrame;             // The original frame as set in IB
   
-  float initialTouchX;    // Where the initial touch occured on drag.
+  float initialTouchX;              // Where the initial touch occured on drag
   
-  BOOL isExpanded;        // Flag for menu being full expended.
+  BOOL isExpanded;                  // Flag for menu being full expended
+  
+  DragTab *dragTab;
+
+  ProgressIndicator *progress;
+  
+  enum TabPosition tabPosition;
 }
 
-@property (nonatomic, retain) ProgressIndicator *progress;
+@property (nonatomic) float visibleTime;
+@property (nonatomic) float dragThreshold;
 
-// Reset the TimedSlideMenu back to its original unretracted position.
+// Set the position where the drag tab appears LeftPosition|RightPosition
+- (void)setPosition:(enum TabPosition)position;
+
+// Expand the menu from its tabbed position to its original position
+- (void)expandMenu;
+
+// Retract the menu from its original position to its tabbed position
+- (void)retractMenu;
+
+// Reset the TimedSlideMenu back to its original unretracted position
 - (void)reset:(id)sender;
 
 @end

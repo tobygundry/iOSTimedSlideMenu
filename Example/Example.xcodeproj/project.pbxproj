@@ -18,7 +18,8 @@
 		DB33CB6317E729EC0007B6AF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DB33CB6217E729EC0007B6AF /* Default-568h@2x.png */; };
 		DB33CB6617E729EC0007B6AF /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB33CB6417E729EC0007B6AF /* MainStoryboard.storyboard */; };
 		DB33CB6917E729EC0007B6AF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DB33CB6817E729EC0007B6AF /* ViewController.m */; };
-		DBCFC4C217E72B23007E43D5 /* libiOSTimedSlideMenu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DBCFC4BF17E72AFD007E43D5 /* libiOSTimedSlideMenu.a */; };
+		DB6540E517EE74080059A156 /* libiOSTimedSlideMenu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DBCFC4BF17E72AFD007E43D5 /* libiOSTimedSlideMenu.a */; };
+		DB6540E817EF06980059A156 /* drag-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DB6540E717EF06980059A156 /* drag-icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		DB33CB6517E729EC0007B6AF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		DB33CB6717E729EC0007B6AF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		DB33CB6817E729EC0007B6AF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		DB6540E717EF06980059A156 /* drag-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "drag-icon.png"; sourceTree = "<group>"; };
 		DBCFC4BA17E72AFD007E43D5 /* iOSTimedSlideMenu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = iOSTimedSlideMenu.xcodeproj; path = ../iOSTimedSlideMenu/iOSTimedSlideMenu.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBCFC4C217E72B23007E43D5 /* libiOSTimedSlideMenu.a in Frameworks */,
+				DB6540E517EE74080059A156 /* libiOSTimedSlideMenu.a in Frameworks */,
 				DB33CB4D17E729EC0007B6AF /* UIKit.framework in Frameworks */,
 				DB33CB4F17E729EC0007B6AF /* Foundation.framework in Frameworks */,
 				DB33CB5117E729EC0007B6AF /* CoreGraphics.framework in Frameworks */,
@@ -76,6 +78,7 @@
 		DB33CB4017E729EB0007B6AF = {
 			isa = PBXGroup;
 			children = (
+				DB6540E717EF06980059A156 /* drag-icon.png */,
 				DBCFC4BA17E72AFD007E43D5 /* iOSTimedSlideMenu.xcodeproj */,
 				DB33CB5217E729EC0007B6AF /* Example */,
 				DB33CB4B17E729EC0007B6AF /* Frameworks */,
@@ -209,6 +212,7 @@
 				DB33CB6117E729EC0007B6AF /* Default@2x.png in Resources */,
 				DB33CB6317E729EC0007B6AF /* Default-568h@2x.png in Resources */,
 				DB33CB6617E729EC0007B6AF /* MainStoryboard.storyboard in Resources */,
+				DB6540E817EF06980059A156 /* drag-icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

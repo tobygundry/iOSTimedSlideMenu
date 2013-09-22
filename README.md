@@ -10,6 +10,8 @@ progress indicator fully retracts, the menu returns to its original tab state.
 Usage
 =====
 
+Create a view on the screen that fills the width of the screen 
+
 iOS Timed Slide Menu can't be used with constraints, after setting a view to be 
 of type TimedSlideMenu, unselect 'Use Autolayout'.
 

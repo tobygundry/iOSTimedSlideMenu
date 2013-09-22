@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <iOSTimedSlideMenu/iOSTimedSlideMenu.h>
+#import <iOSTimedSlideMenu/TimedSlideMenu.h>
 
 @interface ViewController : UIViewController
+{
+  IBOutlet TimedSlideMenu *leftMenu;
+  IBOutlet TimedSlideMenu *rightMenu;
+  
+  IBOutlet UITextField *dragThreshold;
+  IBOutlet UITextField *visibleTime;
+}
+
+- (IBAction)setDragThreshold:(id)sender;
 
 @end
