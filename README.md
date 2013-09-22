@@ -1,7 +1,7 @@
-iOS Timed Slide Menu
-====================
+iOSTimedSlideMenu
+=================
 
-iOS Timed Slide Menu turns a menu into a tab on the side of the screen that the  
+iOSTimedSlideMenu turns a menu into a tab on the side of the screen that the  
 user can drag with their finger to cause it to fully expand, revealing the 
 controls and content it contains.  The menu is displayed for a length of time 
 while a progress indicator retracts back toward the side of the screen, when the 
