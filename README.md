@@ -1,11 +1,10 @@
 iOSTimedSlideMenu
 =================
 
-iOSTimedSlideMenu turns a menu into a tab on the side of the screen that the  
-user can drag with their finger to cause it to fully expand, revealing the 
-controls and content it contains.  The menu is displayed for a length of time 
-while a progress indicator retracts back toward the side of the screen, when the 
-progress indicator fully retracts, the menu returns to its original tab state.
+iOSTimedSlideMenu turns a View into a tab on the side of the screen that users can 
+drag causing it to fully expand. The menu is displayed for a length of time while 
+a progress indicator retracts back toward the side of the screen, when the progress 
+indicator fully retracts, the menu returns to its original tab state.
 
 ![Screenshot 1](/Screenshots/screenshot-1.png "Screenshot 1")
 ![Screenshot 2](/Screenshots/screenshot-2.png "Screenshot 2")
