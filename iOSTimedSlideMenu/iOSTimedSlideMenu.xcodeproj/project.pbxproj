@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		DB33CB3517E7296A0007B6AF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7C1BAC17E1D7EE00917CA3 /* Foundation.framework */; };
 		DB4061F217E86EBC0077D247 /* DragTab.m in Sources */ = {isa = PBXBuildFile; fileRef = DB4061F117E86EBC0077D247 /* DragTab.m */; };
+		DB5D7CC317EB44B9003FB89C /* TimedSlideMenu.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB7C1BCD17E1D94E00917CA3 /* TimedSlideMenu.h */; };
+		DB5D7CC617EB44DE003FB89C /* DragTab.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB4061F017E86EBC0077D247 /* DragTab.h */; };
+		DB5D7CC717EB44DE003FB89C /* ProgressIndicator.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB7C1BD317E4282700917CA3 /* ProgressIndicator.h */; };
+		DB5D7CC817EB44DE003FB89C /* Position.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = DB4061F317E884830077D247 /* Position.h */; };
 		DBCFC4C717E72BBC007E43D5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7C1BD117E3262800917CA3 /* QuartzCore.framework */; };
 		DBCFC4C817E72BC3007E43D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7C1BAE17E1D7EE00917CA3 /* CoreGraphics.framework */; };
 		DBCFC4C917E72BCC007E43D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7C1BAA17E1D7EE00917CA3 /* UIKit.framework */; };
@@ -23,6 +27,10 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				DB5D7CC617EB44DE003FB89C /* DragTab.h in CopyFiles */,
+				DB5D7CC717EB44DE003FB89C /* ProgressIndicator.h in CopyFiles */,
+				DB5D7CC817EB44DE003FB89C /* Position.h in CopyFiles */,
+				DB5D7CC317EB44B9003FB89C /* TimedSlideMenu.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

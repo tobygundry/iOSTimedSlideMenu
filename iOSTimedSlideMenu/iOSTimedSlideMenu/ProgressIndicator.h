@@ -26,10 +26,14 @@
 {
   UIView *superview;  // The TimedSlideMenu the ProgressIndicator belongs to
   
-  enum StartPosition position;
+  enum TabPosition tabPosition;
+  
+  float decreaseSpeed;
 }
 
 // The ProgressBar will be created using the dimensions from the TimedSlideMenu
-- (id)initWithSuperview:(UIView *)view position:(enum StartPosition)position;
+- (id)initWithSuperview:(UIView *)view
+               position:(enum TabPosition)pos
+                  speed:(float)speed;
 
 @end

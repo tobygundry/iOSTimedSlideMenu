@@ -18,15 +18,24 @@
 //  limitations under the License.
 //
 
+#define BAR_HEIGHT  3.0f
+#define BAR_OPACITY 0.7f
+#define EXPAND_X    0.0f
+#define RETRACT_X   0.0f
+
 #import "ProgressIndicator.h"
 
 @implementation ProgressIndicator
 
-- (id)initWithSuperview:(UIView *)view position:(enum StartPosition)position
+- (id)initWithSuperview:(UIView *)view
+               position:(enum TabPosition)position
+                  speed:(float)speed
 {
     if (self = [super init])
     {
       superview = view;
+      tabPosition = position;
+      decreaseSpeed = speed;
     }
   
     return self;
@@ -37,32 +46,50 @@
   self.view = [[UIView alloc] init];
   
   float w = superview.frame.size.width;
-  float h = 3.0;
-  float x = 0;
+  float h = BAR_HEIGHT;
+  float x = EXPAND_X;
   float y = superview.frame.size.height - h;
   
   self.view.frame = CGRectMake(x, y, w, h);
   self.view.backgroundColor = [UIColor whiteColor];
-  self.view.layer.opacity = 0.7f;
-  
-  NSLog(@"loadView called %f %f %f %f", x, y, w, h);
+  self.view.layer.opacity = BAR_OPACITY;
   
   [self animateProgressIndicator];
 }
 
 - (void)animateProgressIndicator
 {
-  [UIView animateWithDuration:5.0
-                   animations:^ { [self setProgressRetractFrame]; }
-                   completion:nil];
+  [UIView animateWithDuration:decreaseSpeed
+                   animations:^ {
+                     [self setProgressRetractFrame];
+                   }
+                   completion:^ (BOOL complete) {
+                     [self.view removeFromSuperview];
+                   }];
 }
 
 - (void)setProgressRetractFrame
 {
+  if(tabPosition==LeftPosition)
+    [self setLeftRetractFrame];
+  else
+    [self setRightRetractFrame];
+}
+
+- (void)setLeftRetractFrame
+{
   self.view.frame = CGRectMake(self.view.frame.origin.x,
-                          self.view.frame.origin.y,
-                          0.0,
-                          self.view.frame.size.height);
+                               self.view.frame.origin.y,
+                               RETRACT_X,
+                               self.view.frame.size.height);
+}
+
+- (void)setRightRetractFrame
+{
+  self.view.frame = CGRectMake(self.view.frame.size.width,
+                               self.view.frame.origin.y,
+                               RETRACT_X,
+                               self.view.frame.size.height);
 }
 
 @end

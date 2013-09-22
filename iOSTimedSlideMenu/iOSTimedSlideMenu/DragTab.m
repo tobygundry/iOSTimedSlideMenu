@@ -5,64 +5,78 @@
 //  Created by Toby Gundry on 17/09/13.
 //  Copyright (c) 2013 Toby Gundry. All rights reserved.
 //
+//  Licensed under the Apache License, Version 2.0 (the "License");
+//  you may not use this file except in compliance with the License.
+//  You may obtain a copy of the License at
+//
+//  http://www.apache.org/licenses/LICENSE-2.0
+//
+//  Unless required by applicable law or agreed to in writing, software
+//  distributed under the License is distributed on an "AS IS" BASIS,
+//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//  See the License for the specific language governing permissions and
+//  limitations under the License.
+//
+
+#define DRAG_ICON @"drag-icon.png"
 
 #import "DragTab.h"
 #import <QuartzCore/QuartzCore.h>
 
-const float w = 44.0;
-const float h = 44.0;
-const float x = 0;
-const float y = 0;
+const float w = 44.0f;
+const float h = 44.0f;
+const float x = 0.0f;
+const float y = 0.0f;
 
 @implementation DragTab
 
-- (id)initWithSuperview:(UIView *)view position:(enum StartPosition)position
+- (id)initWithSuperview:(UIView *)view position:(enum TabPosition)position
 {
   if(self = [super init])
   {
     superview = view;
-    self.backgroundColor = [UIColor redColor];
+
     if(position==LeftPosition)
     {
-      self.frame = CGRectMake(superview.frame.size.width, y, w,
-                              superview.frame.size.height);
+      [self setLeftPositionFrame];
     }
     else // RightPosition
     {
-      self.frame = CGRectMake(x, y, w, superview.frame.size.height);
+      [self setRightPositionFrame];
     }
     
-    [self addSubview:[self getDragIcon]];
+    [self addDragIcon];
   }
   
   return self;
 }
 
-- (UIView *)getDragIcon
+- (void)setLeftPositionFrame
 {
-  float w = 42.0;
-  float h = 4.0 * 4.0;
-  
-  UIView *dragIcon = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, h)];
-  
-  [dragIcon addSubview:[self getRectPart:CGPointMake(0,4)]];
-  [dragIcon addSubview:[self getRectPart:CGPointMake(0,12)]];
-  [dragIcon addSubview:[self getRectPart:CGPointMake(0,20)]];
-  
-  return dragIcon;
+  self.frame = CGRectMake(superview.frame.size.width,
+                          y,
+                          w,
+                          superview.frame.size.height);
 }
 
-- (UIView *)getRectPart:(CGPoint)point
+- (void)setRightPositionFrame
 {
-  CGRect dragFrame = CGRectMake(0.0, point.y, 38.0, 4.0);
+  self.frame = CGRectMake(x, y, w, superview.frame.size.height);
+}
+
+- (void)addDragIcon
+{
+  UIImageView *img = [self getDragIcon];
   
-  UIView *dragPart = [[UIView alloc] initWithFrame:dragFrame];
+  img.center =
+    CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
   
-  dragPart.backgroundColor = [UIColor grayColor];
-  dragPart.layer.cornerRadius = 4.0;
-  // dragRect.layer.shadowColor = CGColor
-  
-  return dragPart;
+  [self addSubview:img];
+}
+
+- (UIImageView *)getDragIcon
+{
+  return [[UIImageView alloc] initWithImage:[UIImage imageNamed:DRAG_ICON]];
 }
 
 @end
