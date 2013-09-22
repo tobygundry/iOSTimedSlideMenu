@@ -27,7 +27,7 @@ Set the following linker flags in Build Settings:
 
 Include TimedSlideMenu.h in the View Controller where you want to use it:
 
-#import <iOSTimedSlideMenu/TimedSlideMenu.h>
+\#import <iOSTimedSlideMenu/TimedSlideMenu.h>
 
 Usage
 =====
