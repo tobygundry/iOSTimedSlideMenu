@@ -32,12 +32,13 @@
   
   BOOL isExpanded;                  // Flag for menu being full expended
   
-  DragTab *dragTab;
-
-  ProgressIndicator *progress;
-  
   enum TabPosition tabPosition;
 }
+
+@property (nonatomic, retain) DragTab *dragTab;
+@property (nonatomic, retain) ProgressIndicator *progress;
+
+@property (nonatomic) float cornerRadius;
 
 @property (nonatomic) float visibleTime;
 @property (nonatomic) float dragThreshold;

@@ -51,6 +51,17 @@
   return self;
 }
 
+- (void)setCornerRadius:(float)cornerRadius
+{
+  _cornerRadius = cornerRadius;
+  self.layer.cornerRadius = _cornerRadius;
+}
+
+- (void)viewDidLoad
+{
+  originalFrame = self.frame;
+}
+
 - (void)setPosition:(enum TabPosition)position
 {
   tabPosition = position;
@@ -58,18 +69,18 @@
   if(tabPosition == RightPosition)
     [self offsetSubviews];
   
-  if(dragTab)
-    [dragTab removeFromSuperview];
+  if(_dragTab)
+    [_dragTab removeFromSuperview];
   
-  dragTab = [[DragTab alloc] initWithSuperview:self position:tabPosition];
+  _dragTab = [[DragTab alloc] initWithSuperview:self position:tabPosition];
   
-  [self addSubview:dragTab];
+  [self addSubview:_dragTab];
   [self retractMenu];
 }
 
 - (void)offsetSubviews
 {
-  float offsetBy = dragTab.frame.size.width;
+  float offsetBy = _dragTab.frame.size.width;
   
   NSArray *subviews = [self subviews];
   
@@ -84,16 +95,18 @@
 
 -(void)addProgressIndicator
 {
-  progress = [[ProgressIndicator alloc] initWithSuperview:self
+  _progress = [[ProgressIndicator alloc] initWithSuperview:self
                                                   position:tabPosition
                                                     speed:_visibleTime];
   
-  [self addSubview:progress.view];
+  [self addSubview:_progress.view];
 }
 
 - (void)expandMenu
 {
   [self toggleExpandedFlag];
+  
+  self.layer.cornerRadius = 0.0f;
   
   [UIView animateWithDuration:EXPAND_SPEED
                         delay:EXPAND_DELAY
@@ -101,15 +114,18 @@
                    animations:^{
                      if(tabPosition == LeftPosition) // move into method
                      {
-                       self.frame = originalFrame;
+                       self.frame = CGRectMake(originalFrame.origin.x,
+                                               self.frame.origin.y, // using the current height is safer 
+                                               originalFrame.size.width,
+                                               originalFrame.size.height);
                      }
                      else
                      {
                        self.frame = CGRectMake(originalFrame.origin.x
-                                               - dragTab.frame.size.width,
+                                               - _dragTab.frame.size.width,
                                                originalFrame.origin.y,
                                                originalFrame.size.width
-                                               + dragTab.frame.size.width,
+                                               + _dragTab.frame.size.width,
                                                originalFrame.size.height);
                      }
                    }
@@ -127,13 +143,15 @@
   
     ? originalFrame.size.width * -1
   
-    : originalFrame.size.width - dragTab.frame.size.width;
+    : originalFrame.size.width - _dragTab.frame.size.width;
  
-  float y = originalFrame.origin.y;
-  float w = originalFrame.size.width + dragTab.frame.size.width;
+  float y = self.frame.origin.y; // use current height safer
+  float w = originalFrame.size.width + _dragTab.frame.size.width;
   float h = originalFrame.size.height;
   
   self.frame = CGRectMake(x, y, w, h);
+  
+  self.layer.cornerRadius = _cornerRadius;
 }
 
 - (void)scheduleReset

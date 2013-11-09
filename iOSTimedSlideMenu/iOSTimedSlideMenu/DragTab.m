@@ -23,7 +23,7 @@
 #import "DragTab.h"
 #import <QuartzCore/QuartzCore.h>
 
-const float w = 44.0f;
+const float w = 54.0f;
 const float h = 44.0f;
 const float x = 0.0f;
 const float y = 0.0f;
